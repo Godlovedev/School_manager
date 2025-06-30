@@ -25,3 +25,13 @@ class UserSerializer(serializers.ModelSerializer):
         if len(value) < 6:
             raise serializers.ValidationError("Le mot de passe doit contenir au moins 6 caractères")
         return value
+    
+    def create(self, validated_data):
+        """
+        Create a new user with hashed password using the create_user method.
+        """
+        return User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )

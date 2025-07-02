@@ -44,6 +44,19 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 ]
 
+# Autorise ton frontend
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Remplace par ton URL frontend
+    "http://127.0.0.1:5173",
+]
+
+# Autorise les headers nécessaires
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'accept',
+]
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -53,8 +66,8 @@ REST_FRAMEWORK = {
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=8),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=712345),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=812345),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': False,
     'AUTH_HEADER_TYPES': ('Bearer',),
@@ -68,6 +81,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'school_api.urls'

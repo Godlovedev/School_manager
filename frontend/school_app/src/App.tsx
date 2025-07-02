@@ -1,23 +1,21 @@
 // src/App.tsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/landing-page";
-import Accueil from "./pages/accueil";
+import Register from "./pages/register";
 import Navbar from "./components/navbar";
+import LoginPage from "./pages/login";
+import Dashboard from "./pages/dashboard";
 
 
-
-function App() {
+export default function App() {
   return (
     <Router>
-      <Navbar />
-      <div className="mt-22">
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/accueil" element={<Accueil />} />
+        <Route path="/accounts/register" element={<Register />} />
+        <Route path="/accounts/login" element={<LoginPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
-      </div>
     </Router>
   );
 }
-
-export default App;

@@ -18,4 +18,4 @@ class School(models.Model):
         return self.name
 
     def is_admin(self, user):
-        return self.user == user
+        return self.admin == user

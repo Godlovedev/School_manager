@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 export default function LoginPage(){
 
@@ -9,7 +9,14 @@ export default function LoginPage(){
     }
 
     const navigate = useNavigate();
-
+    
+    type LocationState = {
+        from: string;
+      };
+      
+      const location = useLocation();
+      const state = location.state as LocationState;
+      const from = state?.from || "/dashboard"; // fallback si rien
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -36,7 +43,8 @@ export default function LoginPage(){
         .then((data) => {
             localStorage.setItem("access_token", data.access);
             localStorage.setItem("refresh_token", data.refresh);
-            navigate("/dashboard")
+             // Recharger la page pour mettre à jour l'état de l'application
+            navigate(from, {replace: true});
             
         })
         .catch((error) => {
@@ -46,7 +54,7 @@ export default function LoginPage(){
 
     return (
         <main className="flex-grow flex items-center justify-center p-4 sm:p-8 h-screen bg-gray-100">
-            <div className="bg-white p-8 rounded-lg shadow-xl border border-gray-200 max-w-md w-full">
+            <div className="bg-white p-8 rounded-lg mt-6 shadow-xl border border-gray-200 max-w-md w-full">
                 <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6 text-orange-500">Connexion</h2>
                 <p className="text-center text-sm text-gray-600 mb-6">
                     Connectez-vous pour accéder à votre compte.

@@ -42,7 +42,7 @@ export default function RegisterPage(){
 
     return (
         <main className="flex-grow flex items-center justify-center p-4 sm:p-8 h-screen bg-gray-100">
-            <div className="bg-white mt-6 p-8 rounded-lg shadow-xl border border-gray-200 max-w-md w-full">
+            <div className="bg-white mt-6 p-9 rounded-lg shadow-xl mt-14 border border-gray-200 max-w-md w-full">
                 <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6 text-orange-500">Créer un compte</h2>
                 <p className="text-center text-gray-600 mb-8">Rejoignez la communauté Excellence Scolaire !</p>
 

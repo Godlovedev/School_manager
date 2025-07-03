@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import verifyToken from '../hook/token';
+import Navbar from '../components/navbar';
 
 // Main LandingPage component
 
 
 const LandingPage = () => {
     // Array of services to display
-    verifyToken();
+
 
     const services = [
         {
@@ -59,25 +59,7 @@ const LandingPage = () => {
     return (
         <div className="flex flex-col min-h-screen bg-white text-gray-800 font-inter">
             {/* Header - Made fixed at the top */}
-            <header className="bg-black text-white p-4 shadow-md fixed top-0 w-full z-50">
-                <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center">
-                    <h1 className="text-xl sm:text-2xl font-bold text-orange-500 mb-2 sm:mb-0">Excellence Scolaire</h1>
-                    <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto mt-2 sm:mt-0">
-                        <NavLink
-                            to={"/accounts/register"}
-                            className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-75 w-full sm:w-auto"
-                        >
-                            Créer un compte
-                        </NavLink>
-                        <NavLink
-                            to={"/accounts/login"}
-                            className="border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-75 w-full sm:w-auto"
-                        >
-                            Se connecter
-                        </NavLink>
-                    </div>
-                </div>
-            </header>
+
             <div className="pt-20 flex-grow flex flex-col">
                 {/* Hero Section - Main content area with light background */}
                 <main className="flex-grow flex items-center justify-center p-4 sm:p-8">
@@ -138,14 +120,7 @@ const LandingPage = () => {
                         </div>
                     </div>
                 </section>
-            </div> {/* Closing div for padding-top */}
-
-            {/* Footer - Kept black for contrast and primary color scheme */}
-            <footer className="bg-black text-gray-400 p-4 text-center shadow-inner">
-                <div className="container mx-auto">
-                    <p className="text-sm sm:text-base">&copy; 2025 Excellence Scolaire. Tous droits réservés.</p>
-                </div>
-            </footer>
+            </div> {/* Closing div for padding-top */}            
         </div>
     );
 };

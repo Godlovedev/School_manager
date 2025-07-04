@@ -23,6 +23,22 @@ class SchoolSerializer(serializers.ModelSerializer):
     def get_is_admin(self, obj):
         request = self.context.get("request")
         return obj.is_admin(request.user)
+    
+    def validate_name(self, value):
+        request = self.context.get("request")
+        if School.objects.filter(name__iexact=value, admin=request.user).exists():
+            raise serializers.ValidationError("Vous avez déja une école à ce nom.")
+        return value
+    
+    def validate_email(self, value):
+        if School.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Il existe déjà une école avec cette adresse email.")
+        return value
+    
+    def validate_phone_number(self, value):
+        if School.objects.filter(phone_number=value).exists():
+            raise serializers.ValidationError("Il existe déjà une école avec ce numéro de téléphone.")
+        return value
 
 
     def create(self, validated_data):

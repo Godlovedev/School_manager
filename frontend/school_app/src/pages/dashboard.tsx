@@ -1,8 +1,6 @@
 // import { useState } from "react"
-import { useEffect, useState } from "react";
-import isTokenValid from "../hook/token";
-import { LogInIcon, LogOut, Plus, X } from "lucide-react";
-import { Logout } from "../hook/deconnexion";
+import { useState, type FormEvent } from "react";
+import {  Plus, X } from "lucide-react";
 
 export default function Dashboard(){
     const [schools, setSchools] = useState([
@@ -10,14 +8,43 @@ export default function Dashboard(){
         { id: 2, name: "École du Savoir", location: "Yaoundé" },
         { id: 3, name: "Académie des Jeunes Talents", location: "Bafoussam" },
     ]);
+    const token = localStorage.getItem("access_token");
     const [showCreateForm, setShowCreateForm] = useState(false);
-    const [newSchoolName, setNewSchoolName] = useState('');
-    const [newSchoolLocation, setNewSchoolLocation] = useState('');
+
+    const handleCreateSchool = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = new FormData(e.currentTarget);
+        const data = {
+            name: form.get("name") as string,
+            localisation: form.get("localisation") as string,
+            email: form.get("email") as string,
+            phone_number: form.get("phone_number") as string,
+        };
+
+        // envoie des donnés a l'api
+        await fetch("http://localhost:8000/api/schools/create/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(data),
+        })
+        .then(async (response) => {
+            const data = await response.json()
+            if (response.ok) {
+                alert(data.message);
+                setShowCreateForm(!showCreateForm);
+            }
+
+        })
+        
+    }
 
 
     return (
         <div className="flex flex-col flex-grow p-4 sm:p-8 bg-gradient-to-br from-gray-50 to-gray-200 min-h-screen">
-            <h2 className="text-4xl sm:text-5xl font-extrabold mb-8 text-gray-900 text-center drop-shadow-lg">
+            <h2 className="text-4xl sm:text-5xl mt-14 font-extrabold mb-8 text-gray-900 text-center drop-shadow-lg">
                 Gestion de mes <span className="text-orange-600">Écoles</span>
             </h2>
 
@@ -41,14 +68,13 @@ export default function Dashboard(){
                 </button>
 
                 {showCreateForm && (
-                    <form className="mt-8 space-y-6">
+                    <form className="mt-8 space-y-6" onSubmit={(e) => handleCreateSchool(e)} >
                         <div>
                             <label htmlFor="schoolName" className="block text-base font-semibold text-gray-800 mb-2">Nom de l'école</label>
                             <input
                                 type="text"
-                                id="schoolName"
-                                value={newSchoolName}
-                                onChange={(e) => setNewSchoolName(e.target.value)}
+                                id="Nom de l'école"
+                                name="name"
                                 required
                                 className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-base placeholder-gray-400"
                                 placeholder="Ex: École Primaire du Centre"
@@ -59,11 +85,32 @@ export default function Dashboard(){
                             <input
                                 type="text"
                                 id="schoolLocation"
-                                value={newSchoolLocation}
-                                onChange={(e) => setNewSchoolLocation(e.target.value)}
+                                name="localisation"
                                 required
                                 className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-base placeholder-gray-400"
                                 placeholder="Ex: Douala, Cameroun"
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="schoolemail" className="block text-base font-semibold text-gray-800 mb-2">Adresse email</label>
+                            <input
+                                type="text"
+                                id="schoolemail"
+                                name="email"
+                                required={false}
+                                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-base placeholder-gray-400"
+                                placeholder="XXX@gmail.com"
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="schoolephone" className="block text-base font-semibold text-gray-800 mb-2">Numéro de télephone</label>
+                            <input
+                                type="text"
+                                id="schoolphone"
+                                name="phone_number"
+                                required={false}
+                                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-base placeholder-gray-400"
+                                placeholder="Ex: +237 6XX XX XX XX"
                             />
                         </div>
                         <button

@@ -1,15 +1,50 @@
 // import { useState } from "react"
-import { useState, type FormEvent } from "react";
-import {  Plus, X } from "lucide-react";
+import { useEffect, useState, type FormEvent } from "react";
+import {  MapPin, Plus, X } from "lucide-react";
+import {DeleteDialog} from "../components/dialog";
+
 
 export default function Dashboard(){
-    const [schools, setSchools] = useState([
-        { id: 1, name: "École Primaire Les Lumières", location: "Douala" },
-        { id: 2, name: "École du Savoir", location: "Yaoundé" },
-        { id: 3, name: "Académie des Jeunes Talents", location: "Bafoussam" },
-    ]);
+    type User = {
+        id: number;
+        username: string;
+        email: string;
+    }
+
+    type School = {
+        id: number;
+        name: string;
+        is_admin: boolean;
+        localisation: string;
+        email: string | null;
+        phone_number: string | null;
+        admin: User;
+        staff: User[];
+    }
+
+    const [schools, setSchools] = useState<School[]>([]);
+    const [reFetched, setReFetched] = useState(false);
     const token = localStorage.getItem("access_token");
     const [showCreateForm, setShowCreateForm] = useState(false);
+
+    // recuperation des écoles sur l'api
+    useEffect(() => {
+        fetch("http://localhost:8000/api/schools/", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then((response) =>{
+            return response.json() 
+        })
+        .then(data => {
+            setSchools(data);
+            
+        })
+    },[reFetched])
+
 
     const handleCreateSchool = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -33,12 +68,28 @@ export default function Dashboard(){
         .then(async (response) => {
             const data = await response.json()
             if (response.ok) {
-                alert(data.message);
                 setShowCreateForm(!showCreateForm);
+                setReFetched(!reFetched);
             }
 
         })
         
+    }
+
+    const deleteSchool = (schoolId: string) => {
+        fetch(`http://localhost:8000/api/schools/delete/${schoolId}/`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then((response) => {
+            return response.json()
+        })
+        .then(data => {
+            setReFetched(!reFetched);
+        })
     }
 
 
@@ -135,8 +186,8 @@ export default function Dashboard(){
                                 <div className="text-left mb-3 sm:mb-0 sm:mr-4 flex-grow">
                                     <p className="text-xl font-semibold text-orange-700 mb-1">{school.name}</p>
                                     <p className="text-base text-gray-600 flex items-center">
-                                        <svg className="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                        {school.location}
+                                        <span><MapPin /></span>
+                                        {school.localisation}
                                     </p>
                                 </div>
                                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
@@ -145,11 +196,8 @@ export default function Dashboard(){
                                     >
                                         Gérer
                                     </button>
-                                    <button
-                                        className="bg-red-500 hover:bg-red-600 text-white text-base font-bold py-2 px-5 rounded-md transition duration-300 ease-in-out shadow-sm hover:shadow-md"
-                                    >
-                                        Supprimer
-                                    </button>
+                                    {school.is_admin && <DeleteDialog deleteFunction={deleteSchool} id={school.id.toString()} />}
+                                    {/* <button name={school.id.toString()} className="bg-red-500 hover:bg-red-600 text-white text-base font-bold py-2 px-5 rounded-md transition duration-300 ease-in-out shadow-sm hover:shadow-md" onClick={(e) => deleteSchool(e.currentTarget?.name)}>Supprimer</button> */}
                                 </div>
                             </li>
                         ))}

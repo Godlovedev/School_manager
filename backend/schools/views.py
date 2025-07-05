@@ -23,7 +23,7 @@ class CreateSchoolsView(APIView):
         serializer = SchoolSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             school = serializer.save()
-            return Response(SchoolSerializer(school, context={'request': request}).data, status=status.HTTP_201_CREATED)
+            return Response({"message": "Ecole créée avec success"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 

@@ -2,6 +2,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import {  MapPin, Plus, X } from "lucide-react";
 import {DeleteDialog} from "../components/dialog";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 export default function Dashboard(){
@@ -26,6 +27,8 @@ export default function Dashboard(){
     const [reFetched, setReFetched] = useState(false);
     const token = localStorage.getItem("access_token");
     const [showCreateForm, setShowCreateForm] = useState(false);
+
+    const navigate = useNavigate()
 
     // recuperation des écoles sur l'api
     useEffect(() => {
@@ -192,6 +195,7 @@ export default function Dashboard(){
                                 </div>
                                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
                                     <button
+                                    onClick={() => navigate(`/dasboard/${school.id}`)}
                                         className="bg-blue-500 hover:bg-blue-600 text-white text-base font-bold py-2 px-5 rounded-md transition duration-300 ease-in-out shadow-sm hover:shadow-md"
                                     >
                                         Gérer

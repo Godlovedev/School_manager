@@ -11,7 +11,7 @@ class ListSchoolsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        schools = School.objects.filter(Q(admin=request.user) | Q(staff=request.user)).distinct()
+        schools = School.objects.filter(Q(admin=request.user) | Q(staff=request.user)).distinct().order_by("-id")
         serializer = SchoolSerializer(schools, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 

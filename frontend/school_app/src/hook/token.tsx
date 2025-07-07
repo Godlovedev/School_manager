@@ -1,6 +1,6 @@
-import {jwtDecode, type JwtPayload} from "jwt-decode"
-import { useEffect, type JSX } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import {jwtDecode} from "jwt-decode"
+import { type JSX } from "react";
+import { Navigate } from "react-router-dom";
 
 
 export function isTokenValid(): boolean {

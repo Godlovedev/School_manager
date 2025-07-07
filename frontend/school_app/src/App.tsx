@@ -7,6 +7,7 @@ import LoginPage from "./pages/login";
 import Dashboard from "./pages/dashboard";
 import PrivateRoute, { isTokenValid } from "./hook/token";
 import Footer from "./components/footer";
+import School from "./pages/school";
 
 
 export default function App() {
@@ -20,6 +21,9 @@ export default function App() {
           <Route path="/accounts/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<PrivateRoute>
             <Dashboard />
+          </PrivateRoute>} />
+          <Route path={`/dasboard/:id`} element={<PrivateRoute>
+            <School />
           </PrivateRoute>} />
         </Routes>
         <Footer />

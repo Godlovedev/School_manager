@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from .permissions import IsAuthenticated, IsAdminSchool, IsSchoolMember
 from .models import School
 from django.db.models import Q
-from .serializer import SchoolSerializer
+from .serializer import SchoolSerializer, SchoolStaffUpdateSerializer
 
 
 class ListSchoolsView(APIView):
@@ -64,3 +64,26 @@ class UpdateSchoolView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except School.DoesNotExist:
             return Response({"detail": "Cette école n'existe pas."}, status=status.HTTP_404_NOT_FOUND)
+
+
+class UpdateStaffView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminSchool]
+
+    def patch(self, request, pk):
+        try:
+            school = School.objects.get(pk=pk)
+        except School.DoesNotExist:
+            return Response({"detail": "École introuvable."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = SchoolStaffUpdateSerializer(
+            school,
+            data=request.data,
+            partial=True,
+            context={'request': request}
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Staff mis à jour avec succès."}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

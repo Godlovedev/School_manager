@@ -46,3 +46,17 @@ class SchoolSerializer(serializers.ModelSerializer):
         user = request.user
         validated_data['admin'] = user
         return super().create(validated_data)
+
+
+class SchoolStaffUpdateSerializer(serializers.ModelSerializer):
+    staff = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
+
+    class Meta:
+        model = School
+        fields = ["staff"]
+
+    def update(self, instance, validated_data):
+        staff = validated_data.get("staff", [])
+        instance.staff.add(*staff)
+        instance.save()
+        return instance

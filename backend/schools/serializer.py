@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import School
+from .models import School, InKindContribution, CashContribution
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -60,3 +60,21 @@ class SchoolStaffUpdateSerializer(serializers.ModelSerializer):
         instance.staff.add(*staff)
         instance.save()
         return instance
+
+
+
+class CashContributionSerializer(serializers.ModelSerializer):
+    school = SchoolSerializer(read_only=True)
+    class Meta:
+        model = CashContribution
+        fields = ['id', 'contributor_name', 'amount', 'date', 'school']
+        read_only_fields = ['id', 'date', "school"]
+
+
+
+class InKindContributionSerializer(serializers.ModelSerializer):
+    school = SchoolSerializer(read_only=True)
+    class Meta:
+        model = InKindContribution
+        fields = ['id', 'contributor_name', 'item_name', 'quantity', 'description', 'date', 'school']
+        read_only_fields = ['id', 'date', "school"]

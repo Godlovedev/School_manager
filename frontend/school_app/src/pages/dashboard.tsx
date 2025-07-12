@@ -2,7 +2,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import {  MapPin, Plus, X } from "lucide-react";
 import {DeleteDialog} from "../components/dialog";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Dashboard(){
@@ -69,7 +69,7 @@ export default function Dashboard(){
             body: JSON.stringify(data),
         })
         .then(async (response) => {
-            const data = await response.json()
+            await response.json()
             if (response.ok) {
                 setShowCreateForm(!showCreateForm);
                 setReFetched(!reFetched);
@@ -90,7 +90,7 @@ export default function Dashboard(){
         .then((response) => {
             return response.json()
         })
-        .then(data => {
+        .then(() => {
             setReFetched(!reFetched);
         })
     }

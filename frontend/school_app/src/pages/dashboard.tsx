@@ -195,7 +195,7 @@ export default function Dashboard(){
                                 </div>
                                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
                                     <button
-                                    onClick={() => navigate(`/dasboard/${school.id}`)}
+                                    onClick={() => navigate(`/dashboard/${school.id}`)}
                                         className="bg-blue-500 hover:bg-blue-600 text-white text-base font-bold py-2 px-5 rounded-md transition duration-300 ease-in-out shadow-sm hover:shadow-md"
                                     >
                                         Gérer

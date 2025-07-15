@@ -22,7 +22,7 @@ export default function App() {
           <Route path="/dashboard" element={<PrivateRoute>
             <Dashboard />
           </PrivateRoute>} />
-          <Route path={`/dasboard/:id`} element={<PrivateRoute>
+          <Route path={`/dashboard/:id`} element={<PrivateRoute>
             <School />
           </PrivateRoute>} />
         </Routes>

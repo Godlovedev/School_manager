@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import LandingPage from './landing-page';
 import { useParams } from 'react-router-dom';
 import Overview from '../components/overview';
+import Contribution from './contributions';
 
 
 type User = {
@@ -21,12 +21,36 @@ type SchoolType = {
     staff: User[];
 }
 
+  
+export type CashContribution = {
+    id?: number; // total_amount n'a pas d'id
+    contributor_name?: string;
+    amount?: number;
+    date?: string;
+    school?: SchoolType;
+    total_amount?: number;
+  };
+  
+export type InKindContribution = {
+    id: number;
+    contributor_name: string;
+    item_name: string;
+    quantity: number;
+    description: string | null;
+    date: string;
+    school: SchoolType;
+  };
+  
+export type ContributionsData = {
+    cash_contributions: CashContribution[];
+    inkind_contributions: InKindContribution[];
+  };
+
 
 const School = () => {
     const [activeTab, setActiveTab] = useState('appercu');
     const token = localStorage.getItem("access_token");
     const [school, setSchool] = useState<SchoolType>();
-    const [reFetched, setReFetched] = useState(false);
     const { id } = useParams();
 
     useEffect(() => {
@@ -41,7 +65,7 @@ const School = () => {
             return res.json();
         })
         .then(data => {setSchool(data)})
-        .catch(err => {console.log("une erreur s'ést produite")});
+        .catch(() => {console.log("une erreur s'ést produite")});
     },[])
 
 
@@ -86,6 +110,16 @@ const School = () => {
                 Gestion des enseigants
                 </button>
             </li>
+            <li>
+                <button
+                onClick={() => setActiveTab('contributions')}
+                className={`w-full text-left py-3 px-4 rounded-lg transition-colors duration-200 ${
+                    activeTab === 'contributions' ? "bg-orange-600 text-white shadow-md" : "hover:bg-gray-700 text-gray-300"
+                }`}
+                >
+                    Gestion des contributions
+                </button>
+            </li>
             </ul>
         </nav>
 
@@ -96,6 +130,7 @@ const School = () => {
             {activeTab === 'appercu' && <Overview school={school} />}
             {activeTab === 'students' && "Yoo"}
             {activeTab === 'professors' && "Yoo"}
+            {activeTab === "contributions" && <Contribution />}
         </div>
         </div>
     );

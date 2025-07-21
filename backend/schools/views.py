@@ -119,8 +119,8 @@ class ListAllContributionsView(APIView):
 
     def get(self, request, pk):
         school = get_object_or_404(School, pk=pk)
-        cash = CashContribution.objects.filter(school=school)
-        inkind = InKindContribution.objects.filter(school=school)
+        cash = CashContribution.objects.filter(school=school).order_by("-id")
+        inkind = InKindContribution.objects.filter(school=school).order_by("-id")
 
         cash_data = CashContributionSerializer(cash, many=True, context={'request': request}).data
         inkind_data = InKindContributionSerializer(inkind, many=True, context={'request': request}).data

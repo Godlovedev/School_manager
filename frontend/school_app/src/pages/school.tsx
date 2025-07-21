@@ -10,7 +10,7 @@ type User = {
     email: string;
 }
 
-type SchoolType = {
+export type SchoolType = {
     id: number;
     name: string;
     is_admin: boolean;
@@ -23,12 +23,17 @@ type SchoolType = {
 
   
 export type CashContribution = {
-    id?: number; // total_amount n'a pas d'id
+    id?: number;
     contributor_name?: string;
     amount?: number;
     date?: string;
     school?: SchoolType;
     total_amount?: number;
+  
+    // Ajouté pour éviter les erreurs TS
+    item_name?: string;
+    quantity?: number;
+    description?: string | null;
   };
   
 export type InKindContribution = {
@@ -39,6 +44,10 @@ export type InKindContribution = {
     description: string | null;
     date: string;
     school: SchoolType;
+  
+    // Ajouté pour éviter les erreurs TS
+    amount?: number;
+    total_amount?: number;
   };
   
 export type ContributionsData = {

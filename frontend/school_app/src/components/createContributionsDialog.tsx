@@ -67,7 +67,27 @@ const Create = ({contribtype, setContributionType, id, setOpen}: {contribtype: C
             },
             body: JSON.stringify(data)
         })
-        .then((res) => {setContributionType(null); setOpen(false)})
+        .then(() => {setContributionType(null); setOpen(false)})
+    }
+
+    const handleInkindSubmit = (e:React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const data = {
+            contributor_name: formData.get("contributor_name"),
+            item_name: formData.get("item_name"),
+            quantity: formData.get("quantity"),
+            description: formData.get("description"),
+        }
+        fetch(`http://localhost:8000/api/schools/${id}/contributions/create-inkind-contribution/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+            },
+            body: JSON.stringify(data)
+        })
+        .then(() => {setContributionType(null); setOpen(false)})
     }
 
     return (
@@ -81,7 +101,19 @@ const Create = ({contribtype, setContributionType, id, setOpen}: {contribtype: C
                         <button className="bg-orange-500 rounded-lg p-2 text-white font-bold" type="submit">Envoyer</button>
                     </div>
                 </form>
-            </div> : <div>contribution en nature</div>}
+            </div> : <div>
+            <form action="" onSubmit={(e) => handleInkindSubmit(e)} className="grid grid-cols-1 gap-3">
+                <input type="text" className="border-solid border-1 rounded-md p-3" placeholder="Nom du contribuant" name="contributor_name" />
+                <input type="text" placeholder="Nom de la contibution" className="border-solid border-1 rounded-md p-3" name="item_name" />
+                <input type="text" placeholder="Quantité" className="border-solid border-1 rounded-md p-3" name="quantity" />
+                <input type="text" placeholder="Description brève..." className="border-solid border-1 rounded-md p-3" name="description" />
+
+                <div className="flex gap-3 justify-between">
+                    <button className="ml-auto border-1 border-solid rounded-lg p-2" type="button" onClick={() => setContributionType(null)}>Annuler</button>
+                    <button className="bg-orange-500 rounded-lg p-2 text-white font-bold" type="submit">Envoyer</button>
+                </div>
+            </form>
+                </div>}
         </div>
     )
 }

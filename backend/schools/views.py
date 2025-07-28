@@ -3,9 +3,9 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from .permissions import IsAuthenticated, IsAdminSchool, IsSchoolMember
-from .models import School, CashContribution, InKindContribution
+from .models import School, CashContribution, InKindContribution, Student, ClassRoom
 from django.db.models import Q
-from .serializer import CashContributionSerializer, InKindContributionSerializer, SchoolSerializer, SchoolStaffUpdateSerializer
+from .serializer import CashContributionSerializer, InKindContributionSerializer, SchoolSerializer, SchoolStaffUpdateSerializer, StudentSerializer, ClassRoomWithStudentsSerializer
 
 
 class ListSchoolsView(APIView):
@@ -129,3 +129,23 @@ class ListAllContributionsView(APIView):
             "cash_contributions": [{"total_amount": CashContribution.get_total_cash(school)}] + cash_data,
             "inkind_contributions": inkind_data
         }, status=status.HTTP_200_OK)
+
+
+class CreateStudentView(APIView):
+    def post(self, request, pk):
+        school = get_object_or_404(School, pk=pk)
+        serializer = StudentSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save(school=school)
+            return Response({"message": "Etudiant créé avec succès"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+class ListStudentsView(APIView):
+    def get(self, request, pk):
+        school = School.objects.get(id=pk)
+
+        classrooms = ClassRoom.objects.filter()
+        serializer = ClassRoomWithStudentsSerializer(classrooms, many=True, context={'school': school, 'request': request})
+        return Response(serializer.data)

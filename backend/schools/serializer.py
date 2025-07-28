@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import School, InKindContribution, CashContribution
+from .models import School, InKindContribution, CashContribution, ClassRoom, Student
 from django.contrib.auth import get_user_model
+
 
 User = get_user_model()
 
@@ -78,3 +79,36 @@ class InKindContributionSerializer(serializers.ModelSerializer):
         model = InKindContribution
         fields = ['id', 'contributor_name', 'item_name', 'quantity', 'description', 'date', 'school']
         read_only_fields = ['id', 'date', "school"]
+
+
+class ClassRoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassRoom
+        fields = ["id", "name"]
+
+class StudentSerializer(serializers.ModelSerializer):
+    school = SchoolSerializer(read_only=True)
+    class Meta:
+        model = Student
+        fields = ['id', 'name', 'note', 'classroom', 'school']
+        read_only_fields = ['id', 'school']
+
+
+class SimpleStudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ['id', 'name', 'note']
+
+
+class ClassRoomWithStudentsSerializer(serializers.ModelSerializer):
+    students = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ClassRoom
+        fields = ['id', 'name', 'students']
+
+    def get_students(self, obj):
+        # On filtre uniquement les élèves de cette classe et de l’école ciblée
+        school = self.context.get('school')
+        students = obj.students.filter(school=school)  # `students` = related_name dans le modèle
+        return StudentSerializer(students, many=True, context=self.context).data

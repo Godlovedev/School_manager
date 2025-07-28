@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ListSchoolsView, CreateSchoolsView, DeleteSchoolsView, GetSchoolView, UpdateSchoolView, UpdateStaffView, CreateCashContributionView, CreateInKindContributionView, ListAllContributionsView
+from .views import ListSchoolsView, CreateSchoolsView, DeleteSchoolsView, GetSchoolView, UpdateSchoolView, UpdateStaffView, CreateCashContributionView, CreateInKindContributionView, ListAllContributionsView, CreateStudentView, ListStudentsView
 
 urlpatterns = [
     path("", ListSchoolsView.as_view(), name="list_schools"),
@@ -11,4 +11,6 @@ urlpatterns = [
     path('<int:pk>/contributions/', ListAllContributionsView.as_view(), name="list_contributions"),
     path('<int:pk>/contributions/create-cash-contribution/', CreateCashContributionView.as_view(), name="create_cash_contribution"),
     path('<int:pk>/contributions/create-inkind-contribution/', CreateInKindContributionView.as_view(), name="create_inkind_contribution"),
+    path("<int:pk>/students/create/", CreateStudentView.as_view(), name="create_student"),
+    path("<int:pk>/students/", ListStudentsView.as_view(), name="list_students"),
 ]

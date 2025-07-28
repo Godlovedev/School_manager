@@ -55,3 +55,15 @@ class InKindContribution(models.Model):
 
     def __str__(self):
         return f"{self.quantity}x {self.item_name} by {self.contributor_name}"
+
+
+
+class Student(models.Model):
+    name = models.CharField(max_length=100)
+    prenom = models.CharField(max_length=100, blank=True, null=True)
+    note = models.FloatField(blank=True, null=True)
+    classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE, related_name='students')
+    school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='students')
+
+    def __str__(self):
+        return self.name

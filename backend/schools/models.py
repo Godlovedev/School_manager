@@ -61,9 +61,18 @@ class InKindContribution(models.Model):
 class Student(models.Model):
     name = models.CharField(max_length=100)
     prenom = models.CharField(max_length=100, blank=True, null=True)
-    note = models.FloatField(blank=True, null=True)
+    note = models.FloatField(blank=True, null=True, default=0)
     classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE, related_name='students')
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='students')
 
     def __str__(self):
         return self.name
+
+
+class Professor(models.Model):
+    name = models.CharField(max_length=100)
+    prenom = models.CharField(max_length=100)
+    school = models.ForeignKey(School, on_delete=models.CASCADE, related_name="professors")
+
+    def __str__(self):
+        return f"{self.name} - ({self.school})"

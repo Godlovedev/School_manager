@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ListSchoolsView, CreateSchoolsView, DeleteSchoolsView, GetSchoolView, UpdateSchoolView, UpdateStaffView, CreateCashContributionView, CreateInKindContributionView, ListAllContributionsView, CreateStudentView, ListStudentsView
+from .views import ListSchoolsView, CreateSchoolsView, DeleteSchoolsView, GetSchoolView, UpdateSchoolView, UpdateStaffView, CreateCashContributionView, CreateInKindContributionView, ListAllContributionsView, CreateStudentView, ListStudentsView, CreateProfessorView, ListProfessorView, UpdateProfessorView, UpdateStudentView, DeleteProfessorView, DeleteStudentView
 
 urlpatterns = [
     path("", ListSchoolsView.as_view(), name="list_schools"),
@@ -13,4 +13,11 @@ urlpatterns = [
     path('<int:pk>/contributions/create-inkind-contribution/', CreateInKindContributionView.as_view(), name="create_inkind_contribution"),
     path("<int:pk>/students/create/", CreateStudentView.as_view(), name="create_student"),
     path("<int:pk>/students/", ListStudentsView.as_view(), name="list_students"),
+    path("<int:pk>/students/<int:student_id>/update/", UpdateStudentView.as_view(), name="update_student"),
+    path("<int:pk>/students/<int:student_id>/delete/", DeleteStudentView.as_view(), name="delete_student"),
+    path("<int:pk>/professors/create/", CreateProfessorView.as_view(), name="create_professor"),
+    path("<int:pk>/professors/", ListProfessorView.as_view(), name="list_professors"),
+    path("<int:pk>/professors/<int:profid>/update/", UpdateProfessorView.as_view(), name="update_professor"),
+    path("<int:pk>/professors/<int:profid>/delete/", DeleteProfessorView.as_view(), name="delete_professor"),
+
 ]

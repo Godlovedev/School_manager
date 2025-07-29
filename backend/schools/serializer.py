@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import School, InKindContribution, CashContribution, ClassRoom, Student
+from .models import School, InKindContribution, CashContribution, ClassRoom, Student, Professor
 from django.contrib.auth import get_user_model
 
 
@@ -112,3 +112,11 @@ class ClassRoomWithStudentsSerializer(serializers.ModelSerializer):
         school = self.context.get('school')
         students = obj.students.filter(school=school)  # `students` = related_name dans le modèle
         return StudentSerializer(students, many=True, context=self.context).data
+
+
+class ProfessorSerializer(serializers.ModelSerializer):
+    school = SchoolSerializer(read_only=True)
+    class Meta:
+        model = Professor
+        fields = ["id", "name", "prenom", "school"]
+        read_only_fields = ["id", "school"]

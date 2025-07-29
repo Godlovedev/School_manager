@@ -3,9 +3,9 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from .permissions import IsAuthenticated, IsAdminSchool, IsSchoolMember
-from .models import School, CashContribution, InKindContribution, Student, ClassRoom
+from .models import School, CashContribution, InKindContribution, ClassRoom, Professor, Student
 from django.db.models import Q
-from .serializer import CashContributionSerializer, InKindContributionSerializer, SchoolSerializer, SchoolStaffUpdateSerializer, StudentSerializer, ClassRoomWithStudentsSerializer
+from .serializer import CashContributionSerializer, InKindContributionSerializer, SchoolSerializer, SchoolStaffUpdateSerializer, StudentSerializer, ClassRoomWithStudentsSerializer, ProfessorSerializer
 
 
 class ListSchoolsView(APIView):
@@ -132,6 +132,8 @@ class ListAllContributionsView(APIView):
 
 
 class CreateStudentView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, pk):
         school = get_object_or_404(School, pk=pk)
         serializer = StudentSerializer(data=request.data, context={'request': request})
@@ -143,9 +145,86 @@ class CreateStudentView(APIView):
 
 
 class ListStudentsView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pk):
         school = School.objects.get(id=pk)
 
         classrooms = ClassRoom.objects.filter()
         serializer = ClassRoomWithStudentsSerializer(classrooms, many=True, context={'school': school, 'request': request})
         return Response(serializer.data)
+
+
+class DeleteStudentView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk, student_id):
+        try:
+            student = Student.objects.get(pk=student_id, school__id=pk)
+            student.delete()
+            return Response({"message": "Etudiant supprimé avec succès."}, status=status.HTTP_204_NO_CONTENT)
+        except Student.DoesNotExist:
+            return Response({"detail": "Cet étudiant n'existe pas."}, status=status.HTTP_404_NOT_FOUND)
+
+class UpdateStudentView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk, student_id):
+        try:
+            student = Student.objects.get(pk=student_id, school__id=pk)
+            serializer = StudentSerializer(student, data=request.data, partial=True, context={'request': request})
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "Etudiant mis à jour avec succès."}, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Student.DoesNotExist:
+            return Response({"detail": "Cet étudiant n'existe pas."}, status=status.HTTP_404_NOT_FOUND)
+
+
+class CreateProfessorView(APIView):
+    """
+    {"name":..., "prenom":...}
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        school = School.objects.get(id=pk)
+
+        professor = ProfessorSerializer(data=request.data, context={"request": request})
+        if professor.is_valid():
+            professor.save(school=school)
+            return Response({"message": "Enseignant ajouté avec success"}, status=status.HTTP_201_CREATED)
+        return Response(professor.errors, status=status.HTTP_400_BAD_REQUEST)
+class ListProfessorView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        school = School.objects.get(id=pk)
+        professors = Professor.objects.filter(school=school).order_by("-id")
+        serializer = ProfessorSerializer(professors, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class DeleteProfessorView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk, profid):
+        try:
+            professor = Professor.objects.get(pk=profid, school__id=pk)
+            professor.delete()
+            return Response({"message": "Professeur supprimé avec succès."}, status=status.HTTP_204_NO_CONTENT)
+        except Professor.DoesNotExist:
+            return Response({"detail": "Ce professeur n'existe pas."}, status=status.HTTP_404_NOT_FOUND)
+        
+class UpdateProfessorView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk, profid):
+        try:
+            professor = Professor.objects.get(pk=profid, school__id=pk)
+            serializer = ProfessorSerializer(professor, data=request.data, partial=True, context={'request': request})
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "Professeur mis à jour avec succès."}, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Professor.DoesNotExist:
+            return Response({"detail": "Ce professeur n'existe pas."}, status=status.HTTP_404_NOT_FOUND)

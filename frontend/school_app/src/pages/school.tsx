@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Overview from '../components/overview';
 import Contribution from './contributions';
+import Professor from './professors';
 
 
 type User = {
@@ -138,7 +139,7 @@ const School = () => {
             </div>
             {activeTab === 'appercu' && <Overview school={school} />}
             {activeTab === 'students' && "Yoo"}
-            {activeTab === 'professors' && "Yoo"}
+            {activeTab === 'professors' && <Professor />}
             {activeTab === "contributions" && <Contribution />}
         </div>
         </div>

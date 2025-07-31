@@ -1,0 +1,47 @@
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "./ui/alert-dialog"
+
+
+
+export default function DeleteProf({id, profId, fetched, setfetched}: {id?:string, profId:string, fetched: boolean, setfetched: (fetched: boolean) => void}) {
+
+    const deleteFunction = (id?: string) => {
+        fetch(`http://localhost:8000/api/schools/${id}/professors/${profId}/delete/`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`
+            }
+        })
+        .then(() => {setfetched(!fetched)})
+    }
+
+    return (
+        <div>
+            <AlertDialog>
+                <AlertDialogTrigger className="p-2 text-sm text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">Supprimer</AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                    <AlertDialogTitle className="text-center">Suppression d'enseignant</AlertDialogTitle>
+                    <AlertDialogDescription className="text-center">
+                        Cette action est irréversible. Voulez vous vraiment supprimer cet enseignant ?
+                    </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                    <AlertDialogCancel>Annuler</AlertDialogCancel>
+                    <AlertDialogAction className="bg-red-500 hover:bg-red-600 text-white text-base font-bold py-2 px-5 rounded-md transition duration-300 ease-in-out shadow-sm hover:shadow-md" onClick={() => deleteFunction(id)}>Supprimer</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </div>
+    )
+}

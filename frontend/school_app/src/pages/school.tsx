@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Overview from '../components/overview';
 import Contribution from './contributions';
 import Professor from './professors';
+import Student from './students';
 
 
 type User = {
@@ -138,7 +139,7 @@ const School = () => {
             <h2 className="text-2xl font-bold text-gray-800 text-center">{school?.name}</h2>
             </div>
             {activeTab === 'appercu' && <Overview school={school} />}
-            {activeTab === 'students' && "Yoo"}
+            {activeTab === 'students' && <Student />}
             {activeTab === 'professors' && <Professor />}
             {activeTab === "contributions" && <Contribution />}
         </div>

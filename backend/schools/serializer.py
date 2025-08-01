@@ -111,7 +111,7 @@ class ClassRoomWithStudentsSerializer(serializers.ModelSerializer):
         # On filtre uniquement les élèves de cette classe et de l’école ciblée
         school = self.context.get('school')
         students = obj.students.filter(school=school)  # `students` = related_name dans le modèle
-        return StudentSerializer(students, many=True, context=self.context).data
+        return SimpleStudentSerializer(students, many=True, context=self.context).data
 
 
 class ProfessorSerializer(serializers.ModelSerializer):

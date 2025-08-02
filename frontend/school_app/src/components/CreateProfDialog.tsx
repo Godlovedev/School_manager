@@ -36,7 +36,7 @@ export default function CreateProf({setOpen, open, id, setfetched, fetched}: {se
                 <AlertDialogTrigger className="px-4 py-2 text-sm font-semibold text-white bg-orange-600 rounded-xl hover:bg-orange-700 transition-colors">Ajouter un enseigant</AlertDialogTrigger>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                    <AlertDialogTitle>Suppression d'ecole</AlertDialogTitle>
+                    <AlertDialogTitle>Ajout d'enseigant</AlertDialogTitle>
                     <AlertDialogDescription>
                     <div>
                     <form action="" onSubmit={(e) => handleSubmit(e)} className="grid grid-cols-1 gap-3">

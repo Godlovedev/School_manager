@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import type { SchoolType } from "./school"
 import CreateStudent from "../components/createStudent"
 import DeleteStudent from "../components/deleteStudentDialog"
+import UpdateStudent from "../components/UpdatetudentDialog"
 
 type Student = {
   id: number
@@ -101,9 +102,7 @@ export default function Student() {
                         )}
                       </td>
                       <td className="px-6 flex py-4 space-x-2">
-                        <button className="text-sm px-3 py-1 rounded bg-gray-800 text-white hover:bg-gray-700 transition">
-                          Modifier
-                        </button>
+                        <UpdateStudent id={id} studentId={student.id.toString()} fetched={fetched} setFetched={setFetched} />
                         <DeleteStudent id={id} studentId={student.id.toString()} setfetched={setFetched} fetched={fetched} />
                       </td>
                     </tr>

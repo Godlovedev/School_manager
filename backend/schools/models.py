@@ -21,6 +21,14 @@ class School(models.Model):
     def is_admin(self, user):
         return self.admin == user
 
+    def count_student(self):
+        # student est relié en foreinkey a ce model
+        return self.students.count()
+    
+    def count_professor(self):
+        # professor est relié en foreinkey a ce model
+        return self.professors.count()
+
 
 class ClassRoom(models.Model):
     name = models.CharField(max_length=100)

@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Remplace par ton URL frontend
     "http://127.0.0.1:5173",
-    "https://8ab9a1c56131.ngrok-free.app"
+    "https://1de5f5f57a0a.ngrok-free.app"
 ]
 
 # Autorise les headers nécessaires

@@ -16,10 +16,11 @@ class SchoolSerializer(serializers.ModelSerializer):
     admin = UserSerializer(read_only=True)
     staff = UserSerializer(read_only=True, many=True)
     is_admin = serializers.SerializerMethodField()
+    representation = serializers.SerializerMethodField()
     class Meta:
         model = School
-        fields = ['id', 'name', 'localisation', 'phone_number', 'email', "is_admin", 'admin', "staff"]
-        read_only_fields = ['admin', 'id']
+        fields = ['id', 'name', 'localisation', 'phone_number', 'email', "is_admin", 'admin', "staff", "representation"]
+        read_only_fields = ['admin', 'id', "reprsentation"]
 
     def get_is_admin(self, obj):
         request = self.context.get("request")
@@ -47,7 +48,13 @@ class SchoolSerializer(serializers.ModelSerializer):
         user = request.user
         validated_data['admin'] = user
         return super().create(validated_data)
-
+    
+    # fonction qui compte le nombre d'eleves de l'ecole et le nobre d'enseignant
+    def get_representation(self, obj):
+        return {
+            "students_count": obj.count_student(),
+            "professors_count": obj.count_professor(),
+        }
 
 class SchoolStaffUpdateSerializer(serializers.ModelSerializer):
     staff = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)

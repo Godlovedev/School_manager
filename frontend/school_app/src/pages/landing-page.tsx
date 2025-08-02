@@ -1,74 +1,62 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Navbar from '../components/navbar';
-
-// Main LandingPage component
-
 
 const LandingPage = () => {
-    // Array of services to display
-
-
     const services = [
         {
-            title: "Suivi des Performances",
-            description: "Suivez en détail les progrès académiques de chaque élève, identifiez les forces et les faiblesses pour une intervention ciblée."
+            title: "Gestion des Inscriptions",
+            description: "Ajoutez facilement les élèves et organisez-les par classe pour un suivi clair et structuré."
         },
         {
-            title: "Rapports Personnalisés",
-            description: "Générez des rapports clairs et personnalisés pour les parents et les enseignants, facilitant la compréhension des parcours d'apprentissage."
+            title: "Suivi des Contributions",
+            description: "Consignez toutes les contributions financières et matérielles faites par les partenaires."
         },
         {
-            title: "Communication École-Famille",
-            description: "Améliorez la collaboration avec les familles grâce à des outils de communication intégrés et des mises à jour en temps réel."
+            title: "Tableaux de Bord Clairs",
+            description: "Accédez à une vue d’ensemble de l’école, des inscriptions et des contributions."
         },
         {
-            title: "Gestion des Activités",
-            description: "Organisez et suivez la participation aux activités parascolaires, enrichissant l'expérience éducative des élèves."
+            title: "Classement par Type",
+            description: "Séparez les contributions en espèces et en nature pour une meilleure organisation."
         },
         {
-            title: "Planification Pédagogique",
-            description: "Soutenez les enseignants avec des outils pour la planification des leçons, le suivi du programme et l'évaluation continue."
+            title: "Interface Simple et Intuitive",
+            description: "Naviguez facilement grâce à une interface épurée pensée pour les utilisateurs non techniques."
         },
         {
-            title: "Analyse des Tendances",
-            description: "Obtenez des aperçus précieux sur les tendances de performance de l'école pour des décisions stratégiques éclairées."
+            title: "Sauvegarde Sécurisée",
+            description: "Toutes les données sont enregistrées en toute sécurité et accessibles à tout moment."
         },
     ];
 
-    // Array of "How it works" steps
     const howItWorksSteps = [
         {
             title: "Créer votre Compte",
-            description: "Inscrivez-vous rapidement et configurez le profil de votre école en quelques étapes simples."
+            description: "Inscrivez-vous rapidement et configurez le profil de votre école."
         },
         {
-            title: "Ajouter vos Élèves et Classes",
-            description: "Importez facilement les informations de vos élèves et organisez-les par classe pour un suivi efficace."
+            title: "Ajouter les Élèves et les Classes",
+            description: "Ajoutez manuellement ou importez vos élèves et assignez-les à leurs classes."
         },
         {
-            title: "Saisir les Données Scolaires",
-            description: "Enregistrez les notes, les présences et les comportements pour construire un historique complet de chaque élève."
+            title: "Enregistrer les Contributions",
+            description: "Ajoutez les contributions faites par les partenaires (en espèces ou en nature)."
         },
         {
-            title: "Améliorer en Continu",
-            description: "Utilisez les données pour prendre des décisions éclairées et mettre en place des stratégies d'amélioration continue."
+            title: "Suivre et Gérer",
+            description: "Visualisez toutes les données depuis un tableau de bord centralisé."
         },
     ];
 
     return (
         <div className="flex flex-col min-h-screen bg-white text-gray-800 font-inter">
-            {/* Header - Made fixed at the top */}
-
             <div className="pt-20 flex-grow flex flex-col">
-                {/* Hero Section - Main content area with light background */}
                 <main className="flex-grow flex items-center justify-center p-4 sm:p-8">
                     <div className="text-center max-w-3xl">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 leading-tight text-gray-900">
-                            Organisez la <span className="text-orange-500">Cérémonie d'Excellence Scolaire</span> avec Facilité
+                            Gérez les <span className="text-orange-500">Inscriptions et Contributions</span> de votre école en toute simplicité
                         </h2>
                         <p className="text-base sm:text-lg mb-8 text-gray-600">
-                            Notre application est conçue pour simplifier l'organisation et la gestion de la cérémonie de fin d'année, récompensant les meilleurs élèves et célébrant leurs réussites académiques.
+                            Une plateforme intuitive pour gérer les élèves inscrits dans votre établissement et enregistrer les contributions (en espèces ou en nature) faites par vos partenaires.
                         </p>
                         <NavLink
                             to={"accounts/register"}
@@ -79,7 +67,6 @@ const LandingPage = () => {
                     </div>
                 </main>
 
-                {/* Services Section */}
                 <section className="py-12 sm:py-16 bg-gray-50">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                         <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 sm:mb-12 text-gray-900">Nos <span className="text-orange-500">Services</span></h2>
@@ -100,7 +87,6 @@ const LandingPage = () => {
                     </div>
                 </section>
 
-                {/* How It Works Section */}
                 <section className="py-12 sm:py-16 bg-white">
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                         <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 sm:mb-12 text-gray-900">Comment ça <span className="text-orange-500">Marche ?</span></h2>
@@ -120,7 +106,7 @@ const LandingPage = () => {
                         </div>
                     </div>
                 </section>
-            </div> {/* Closing div for padding-top */}            
+            </div>
         </div>
     );
 };

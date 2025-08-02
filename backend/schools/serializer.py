@@ -90,14 +90,14 @@ class StudentSerializer(serializers.ModelSerializer):
     school = SchoolSerializer(read_only=True)
     class Meta:
         model = Student
-        fields = ['id', 'name', 'note', 'classroom', 'school']
+        fields = ['id', 'name', "prenom", 'note', 'classroom', 'school']
         read_only_fields = ['id', 'school']
 
 
 class SimpleStudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ['id', 'name', 'note']
+        fields = ['id', 'name', "prenom" ,'note']
 
 
 class ClassRoomWithStudentsSerializer(serializers.ModelSerializer):

@@ -2,10 +2,12 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import type { SchoolType } from "./school"
 import CreateStudent from "../components/createStudent"
+import DeleteStudent from "../components/deleteStudentDialog"
 
 type Student = {
   id: number
   name: string
+  prenom: string
   note: number | null
   classroom: number
   school: SchoolType
@@ -18,7 +20,7 @@ type Classroom = {
 }
 
 export default function Student() {
-  const [current, setCurrent] = useState<string>("")
+  const [current, setCurrent] = useState<string>("MATERNELLE")
   const [classes, setClasses] = useState<Classroom[]>([])
   const { id } = useParams()
   const [fetched, setFetched] = useState(false)
@@ -34,9 +36,7 @@ export default function Student() {
       .then((res) => res.json())
       .then((data) => {
         setClasses(data)
-        if (data.length > 0) {
-          setCurrent(data[0].name)
-        }
+        
       })
   }, [fetched])
 
@@ -74,6 +74,7 @@ export default function Student() {
               <thead className="bg-gray-800 text-white">
                 <tr>
                   <th className="px-6 py-3 text-left">Nom</th>
+                  <th className="px-6 py-3 text-left">Prénom</th>
                   <th className="px-6 py-3 text-left">Note</th>
                   <th className="px-6 py-3 text-left">Options</th>
                 </tr>
@@ -81,20 +82,15 @@ export default function Student() {
               <tbody>
                 {classroom.students.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan={3}
-                      className="text-center text-gray-500 px-6 py-4"
-                    >
+                    <td colSpan={4} className="text-center text-gray-500 px-6 py-4">
                       Aucun élève dans cette classe.
                     </td>
                   </tr>
                 ) : (
                   classroom.students.map((student) => (
-                    <tr
-                      key={student.id}
-                      className="border-b hover:bg-gray-50 transition"
-                    >
+                    <tr key={student.id} className="border-b hover:bg-gray-50 transition">
                       <td className="px-6 py-4">{student.name}</td>
+                      <td className="px-6 py-4">{student.prenom}</td>
                       <td className="px-6 py-4">
                         {student.note !== null ? (
                           student.note
@@ -104,13 +100,11 @@ export default function Student() {
                           </button>
                         )}
                       </td>
-                      <td className="px-6 py-4 space-x-2">
+                      <td className="px-6 flex py-4 space-x-2">
                         <button className="text-sm px-3 py-1 rounded bg-gray-800 text-white hover:bg-gray-700 transition">
                           Modifier
                         </button>
-                        <button className="text-sm px-3 py-1 rounded bg-red-100 text-red-600 hover:bg-red-200 transition">
-                          Supprimer
-                        </button>
+                        <DeleteStudent id={id} studentId={student.id.toString()} setfetched={setFetched} fetched={fetched} />
                       </td>
                     </tr>
                   ))

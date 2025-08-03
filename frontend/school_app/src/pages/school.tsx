@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import Overview from '../components/overview';
 import Contribution from './contributions';
 import Professor from './professors';
 import Student from './students';
-import { Menu } from 'lucide-react';
+import { ArrowLeft, Menu } from 'lucide-react';
 
 type User = {
   id: number;
@@ -64,6 +64,7 @@ const School = () => {
   const token = localStorage.getItem("access_token");
   const [school, setSchool] = useState<SchoolType>();
   const { id } = useParams();
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetch(`http://localhost:8000/api/schools/${id}/`, {
@@ -102,7 +103,12 @@ const School = () => {
           md:translate-x-0
         `}
       >
-        <h1 className="text-2xl font-bold text-orange-500 mb-6">Tableau de Bord</h1>
+        <div className="flex items-center gap-3 mb-6">
+          <button>
+            <ArrowLeft onClick={() => {navigate("/dashboard")}} className="text-orange-500" />
+          </button>
+          <h1 className="text-2xl font-bold text-orange-500">Tableau de Bord</h1>
+        </div>
         <ul className="space-y-2">
           <li>
             <button

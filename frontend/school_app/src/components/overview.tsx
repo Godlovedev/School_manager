@@ -24,12 +24,12 @@ export default function Overview() {
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Aperçu Général</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-orange-50 p-6 rounded-lg shadow-sm">
-                    <p className="text-sm text-gray-600">Total Élèves</p>
+                    <p className="text-sm text-gray-600">Total des Élèves</p>
                     <p className="text-3xl font-semibold text-orange-700"> {school?.representation.students_count} </p>
                 </div>
                 {/* Total Enseignants Block */}
                 <div className="bg-orange-50 p-6 rounded-lg shadow-sm">
-                    <p className="text-sm text-gray-600">Total Enseignants</p>
+                    <p className="text-sm text-gray-600">Total des Enseignants</p>
                     <p className="text-3xl font-semibold text-orange-700">{school?.representation.professors_count}</p>
                 </div>
                 {/* Classes Actives Block */}

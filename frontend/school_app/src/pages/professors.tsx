@@ -18,7 +18,6 @@ export default function Professor(){
     const [professors, setProfessors] = useState<Professor[]>();
     const { id } = useParams()
     const [open, setOpen] = useState(false);
-    const [open1, setOpen1] = useState(false);
 
     const [fetched, setFetched] = useState(false);
 

@@ -6,7 +6,6 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-    AlertDialogFooter,
 } from "./ui/alert-dialog"
 
 

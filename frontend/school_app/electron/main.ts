@@ -17,16 +17,19 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  // Lancer le backend (si ton venv est dans backend/env/)
-  const script = process.platform === 'win32' ? 'backend/env/Scripts/python' : 'backend/env/bin/python';
+  const script =
+    process.platform === 'win32'
+      ? 'backend/env/Scripts/python'
+      : 'backend/env/bin/python';
+
   backend = spawn(script, ['manage.py', 'runserver', '127.0.0.1:8000']);
 
-  backend.stdout.on('data', data => {
-    console.log(`Backend: ${data}`);
+  backend.stdout.on('data', (data: Buffer) => {
+    console.log(`Backend: ${data.toString()}`);
   });
 
-  backend.stderr.on('data', data => {
-    console.error(`Backend Error: ${data}`);
+  backend.stderr.on('data', (data: Buffer) => {
+    console.error(`Backend Error: ${data.toString()}`);
   });
 
   createWindow();

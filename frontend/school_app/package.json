@@ -7,8 +7,13 @@
 
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": {
+      "main": "dist-electron/main.js",
+      "asar": false
+    },
     "lint": "eslint .",
+    
+    "electron:build": "tsc -p tsconfig.electron.json && electron-builder",
     "preview": "vite preview",
     "build-electron": "vite build --outDir ../../dist",
     "start": "electron .",

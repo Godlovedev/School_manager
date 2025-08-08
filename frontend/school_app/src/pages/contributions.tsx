@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { CashContribution, ContributionsData, InKindContribution, SchoolType } from "./school";
+import type { CashContribution, ContributionsData, InKindContribution } from "./school";
 import { useParams } from "react-router-dom";
 import CreateContribution from "../components/createContributionsDialog";
 

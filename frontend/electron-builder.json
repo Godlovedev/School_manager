@@ -1,0 +1,22 @@
+{
+    "appId": "com.schoolmanager.desktop",
+    "productName": "SchoolManager",
+    "files": [
+      "build/**/*",
+      "electron.js",
+      "backend_dist/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "backend_dist",
+        "to": "backend"
+      }
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist_electron"
+    },
+    "win": {
+      "target": "nsis"
+    }
+  }

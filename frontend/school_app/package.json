@@ -10,7 +10,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-
+    "build-electron": "vite build --outDir ../../dist",
     "start": "electron .",
     "electron:dev": "vite build && electron ."
   },

@@ -1,0 +1,57 @@
+name: Build Electron App
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: 🧾 Checkout repository
+      uses: actions/checkout@v3
+
+    - name: 🐍 Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: 🧪 Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        pip install -r backend/requirements.txt
+
+    - name: 🏗️ Build Django backend with PyInstaller
+      working-directory: backend
+      run: |
+        pyinstaller --name backend_server --onefile manage.py
+        mkdir ../frontend/school_app/backend_dist
+        copy dist\backend_server.exe ../frontend/school_app/backend_dist\
+
+    - name: 🟦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: 📦 Install frontend dependencies
+      working-directory: frontend/school_app
+      run: npm install
+
+    - name: ⚙️ Build React frontend
+      working-directory: frontend/school_app
+      run: npm run build
+
+    - name: 📦 Build Electron app
+      working-directory: frontend/school_app
+      run: |
+        npm install electron-builder --save-dev
+        npx electron-builder --win --x64
+
+    - name: 📤 Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: schoolmanager-desktop
+        path: frontend/school_app/dist_electron/*.exe

@@ -1,0 +1,12 @@
+{
+    "name": "school-manager-app",
+    "version": "1.0.0",
+    "main": "electron/electron.js",
+    "scripts": {
+      "start": "electron .",
+      "build": "cd frontend/school_app && npm install && npm run build-electron"
+    },
+    "devDependencies": {
+      "electron": "^30.0.0"
+    }
+  }

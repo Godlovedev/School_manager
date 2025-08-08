@@ -3,23 +3,18 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "main": "electron.js",
-
+  "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
-    "build": {
-      "main": "dist-electron/main.js",
-      "asar": false
-    },
+    "build": "tsc -b && vite build",
     "lint": "eslint .",
-    
     "electron:build": "tsc -p tsconfig.electron.json && electron-builder",
-    "preview": "vite preview",
-    "build-electron": "vite build --outDir ../../dist",
-    "start": "electron .",
-    "electron:dev": "vite build && electron ."
+    "preview": "vite preview"
   },
-
+  "build": {
+    "main": "dist-electron/main.js",
+    "asar": false
+  },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-slot": "^1.2.3",

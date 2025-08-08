@@ -6,27 +6,20 @@
   "main": "dist-electron/main.js",
   "description": "App de gestion scolaire",
   "author": "Godlove",
+
+  "build": {
+      "asar": false
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "electron:build": "tsc -p tsconfig.electron.json && electron-builder",
     "preview": "vite preview",
-    "build-electron": "vite build --outDir ../../dist",
+    "electron:build": "tsc -p tsconfig.electron.json && electron-builder",
     "start": "electron .",
     "electron:dev": "vite build && electron ."
   },
-  "build": {
-    "asar": false,
-    "appId": "com.school.app",
-    "productName": "SchoolManager",
-    "files": [
-      "dist",
-      "dist-electron",
-      "node_modules",
-      "package.json"
-    ]
-  },
+
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-slot": "^1.2.3",
